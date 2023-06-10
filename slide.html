@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Slide Images</title>
+</head>
+<body>
+  <h1>Slide Images</h1>
+
+  <div id="slideContainer">
+    <!-- The image links will be dynamically added here -->
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $.ajax({
+        url: 'slide/',
+        success: function(data) {
+          $(data).find("a:contains('.png')").each(function() {
+            var fileName = $(this).attr("href");
+            var slideHTML = `
+              <div class="slide-item">
+                <img src="slide/${fileName}" alt="${fileName}">
+              </div>
+            `;
+            $("#slideContainer").append(slideHTML);
+          });
+        },
+        error: function(xhr, status, error) {
+          console.log("Failed to retrieve slide images:", error);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
